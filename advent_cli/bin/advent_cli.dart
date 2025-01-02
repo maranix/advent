@@ -1,4 +1,5 @@
-import 'package:args/args.dart';
+import "package:advent_cli/cmd/cmd.dart";
+import "package:args/command_runner.dart";
 
 // Commands
 //
@@ -8,62 +9,48 @@ import 'package:args/args.dart';
 // 4. config file for configuration & running the solutions via defined commands for each languages. (Handy, can be separeted and customized with .advent)
 // 5. input (for getting input of specified year & day (current year & day by default)
 
-const String version = '0.0.1';
+const String version = "0.0.1";
 
-ArgParser buildParser() {
-  return ArgParser()
-    ..addFlag(
-      'help',
-      abbr: 'h',
-      negatable: false,
-      help: 'Print this usage information.',
-    )
-    ..addFlag(
-      'verbose',
-      abbr: 'v',
-      negatable: false,
-      help: 'Show additional command output.',
-    )
-    ..addFlag(
-      'version',
-      negatable: false,
-      help: 'Print the tool version.',
-    );
-}
+CommandRunner buildRunner() {
+  final runner = CommandRunner("advent", "");
 
-void printUsage(ArgParser argParser) {
-  print('Usage: dart advent_cli.dart <flags> [arguments]');
-  print(argParser.usage);
+  [
+    LoginCommand(),
+    LogoutCommand(),
+    GenCommand(),
+    InputCommand(),
+    ConfigCommand()
+  ].forEach(runner.addCommand);
+
+  return runner;
 }
 
 void main(List<String> arguments) {
-  final ArgParser argParser = buildParser();
+  final runner = buildRunner();
+
+  runner.argParser.addFlag(
+    "version",
+    abbr: "v",
+    negatable: false,
+    help: "Show version.",
+  );
+
   try {
-    final ArgResults results = argParser.parse(arguments);
-    bool verbose = false;
+    final results = runner.argParser.parse(arguments);
 
-    // Process the parsed arguments.
-    if (results.flag('help')) {
-      printUsage(argParser);
+    if (results.flag("version")) {
+      print("advent: $version");
       return;
     }
-    if (results.flag('version')) {
-      print('advent_cli version: $version');
-      return;
-    }
-    if (results.flag('verbose')) {
-      verbose = true;
-    }
 
-    // Act on the arguments provided.
-    print('Positional arguments: ${results.rest}');
-    if (verbose) {
-      print('[VERBOSE] All arguments: ${results.arguments}');
-    }
+    runner.run(arguments);
+  } on UsageException catch (e) {
+    // Print usage information if an invalid argument was provided.
+    print(e.message);
+    print(runner.usage);
   } on FormatException catch (e) {
     // Print usage information if an invalid argument was provided.
     print(e.message);
-    print('');
-    printUsage(argParser);
+    print(runner.usage);
   }
 }
