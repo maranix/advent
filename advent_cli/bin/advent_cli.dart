@@ -19,7 +19,6 @@ CommandRunner buildRunner() {
     LogoutCommand(),
     GenCommand(),
     InputCommand(),
-    ConfigCommand()
   ].forEach(runner.addCommand);
 
   return runner;

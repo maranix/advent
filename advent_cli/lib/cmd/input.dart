@@ -1,3 +1,6 @@
+import "dart:io";
+
+import "package:advent_cli/web/client.dart";
 import "package:args/command_runner.dart";
 
 final class InputCommand extends Command {
@@ -24,7 +27,7 @@ final class InputCommand extends Command {
   String get description => "Gets input for given day & year";
 
   @override
-  void run() {
+  void run() async {
     if (argResults == null || argResults!.options.isEmpty) {
       printUsage();
       return;
@@ -35,6 +38,17 @@ final class InputCommand extends Command {
     int day = int.parse(args.option("day")!);
     int year = int.parse(args.option("year")!);
 
-    print("$day : $year");
+    try {
+      final session = await File(".session").readAsString();
+      final client = WebClient(cookie: session);
+
+      final data = await client.getInput(day, year);
+
+      final input = File("${year}_$day");
+      await input.writeAsBytes(data, flush: true);
+    } on Exception catch (e) {
+      print(e.toString());
+      return;
+    }
   }
 }

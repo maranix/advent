@@ -1,3 +1,5 @@
+import "dart:io";
+
 import "package:args/command_runner.dart";
 
 final class LogoutCommand extends Command {
@@ -8,8 +10,10 @@ final class LogoutCommand extends Command {
   String get description => "Deletes the saved session token and logs out.";
 
   @override
-  void run() {
-    // TODO: Delete session token
-    print("Logout");
+  void run() async {
+    final file = File(".session");
+    await file.delete();
+
+    print("session token deleted");
   }
 }
