@@ -97,8 +97,8 @@ final class WebServer {
       return Response.badRequest(body: "Session token not found");
     }
 
-    final file =
-        ioutil.createFile(apputil.applicationConfigDir().path, TOKEN_FILE_NAME);
+    final file = ioutil.createFile(
+        apputil.applicationConfigDir().path, SESSION_TOKEN_FILE_NAME);
     await file.writeAsString(
       sessionToken,
       mode: FileMode.writeOnly,
