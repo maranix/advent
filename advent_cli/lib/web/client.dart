@@ -34,4 +34,8 @@ final class WebClient {
 
     return res.bodyBytes;
   }
+
+  void close() {
+    _client.close();
+  }
 }
