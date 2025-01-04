@@ -29,6 +29,8 @@ String tmpDir() => switch (Platform.operatingSystem) {
       _ => throw StateError("Platform is not supported"),
     };
 
-String applicationConfigDir() => path.join(configDir(), APPLICATION_DIR_NAME);
+Directory applicationConfigDir() =>
+    Directory(path.join(configDir(), APPLICATION_DIR_NAME));
 
-String applicationTmpDir() => path.join(tmpDir(), APPLICATION_DIR_NAME);
+Directory applicationTmpDir() =>
+    Directory(path.join(tmpDir(), APPLICATION_DIR_NAME));
