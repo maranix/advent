@@ -9,3 +9,5 @@ Directory applicationConfigDir() =>
 
 Directory applicationTmpDir() =>
     Directory(p.join(os.tmpDir(), APPLICATION_DIR_NAME));
+
+String? getSessionTokenFromEnv() => os.env(SESSION_TOKEN_ENV_KEY);
