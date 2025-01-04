@@ -14,4 +14,4 @@ const UNIX_XDG_ENV_KEY = "XDG_CONFIG_HOME";
 
 const WINDOWS_TMP_ENV_KEY = "TMP";
 
-const UNIX_TMP_ENV_KEY = "tmp"
+const UNIX_TMP_ENV_KEY = "tmp";

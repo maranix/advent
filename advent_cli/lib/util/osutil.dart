@@ -28,9 +28,3 @@ String tmpDir() => switch (Platform.operatingSystem) {
       "linux" => path.join(UNIX_TMP_ENV_KEY),
       _ => throw StateError("Platform is not supported"),
     };
-
-Directory applicationConfigDir() =>
-    Directory(path.join(configDir(), APPLICATION_DIR_NAME));
-
-Directory applicationTmpDir() =>
-    Directory(path.join(tmpDir(), APPLICATION_DIR_NAME));
