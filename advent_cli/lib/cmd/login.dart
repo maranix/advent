@@ -18,8 +18,6 @@ final class LoginCommand extends Command {
       await server.statusStream.firstWhere(
         (status) => status == WebServerStatus.stopped,
       );
-
-      print("Succesfully logged in");
     } on Exception catch (e) {
       print(e.toString());
     } finally {

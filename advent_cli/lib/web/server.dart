@@ -3,6 +3,7 @@ import "dart:io";
 
 import "package:advent_cli/constants.dart";
 import "package:advent_cli/util/ioutil.dart" as ioutil;
+import "package:advent_cli/util/apputil.dart" as apputil;
 import "package:shelf/shelf.dart";
 import "package:shelf_router/shelf_router.dart";
 import "package:shelf/shelf_io.dart" as shelf;
@@ -24,7 +25,7 @@ final class WebServer {
   late final Router _router;
 
   final StreamController<WebServerStatus> _statusStreamController =
-      StreamController<WebServerStatus>.broadcast();
+      StreamController<WebServerStatus>();
 
   WebServerStatus _serverStatus = WebServerStatus.starting;
 
@@ -42,6 +43,7 @@ final class WebServer {
       port,
     );
 
+    instance._listenForTerminationSignal();
     print(
         "Listening on http://${instance._server.address.host}:${instance._server.port}");
 
@@ -95,7 +97,8 @@ final class WebServer {
       return Response.badRequest(body: "Session token not found");
     }
 
-    final file = ioutil.createFile(ioutil.getApplicationDir(), TOKEN_FILE_NAME);
+    final file =
+        ioutil.createFile(apputil.applicationConfigDir().path, TOKEN_FILE_NAME);
     await file.writeAsString(
       sessionToken,
       mode: FileMode.writeOnly,
@@ -104,7 +107,15 @@ final class WebServer {
 
     await stop();
 
+    print("Succesfully logged in");
     return Response.ok(
         "Token Received!, you can close this page and continue via CLI.");
+  }
+
+  void _listenForTerminationSignal() {
+    ProcessSignal.sigint.watch().take(1).listen((_) async {
+      print("\nProcess termination requested, stopping server...");
+      await stop();
+    });
   }
 }
