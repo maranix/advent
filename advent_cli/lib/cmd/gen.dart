@@ -16,14 +16,17 @@ final class GenCommand extends Command {
 
   @override
   void run() {
-    if (argResults == null || argResults!.options.isEmpty) return;
+    print("This feature is not yet supported");
+    return;
 
-    final args = argResults!;
-
-    String lang = args.option("lang")!;
-    int day = int.parse(args.option("day")!);
-    int year = int.parse(args.option("year")!);
-
-    print("$lang : $day, $year");
+    // if (argResults == null || argResults!.options.isEmpty) return;
+    //
+    // final args = argResults!;
+    //
+    // String lang = args.option("lang")!;
+    // int day = int.parse(args.option("day")!);
+    // int year = int.parse(args.option("year")!);
+    //
+    // print("$lang : $day, $year");
   }
 }
