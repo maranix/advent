@@ -1,5 +1,5 @@
 name: advent_cli
-description: A sample command-line application with basic argument parsing.
+description: A command-line application for managing & participating in Advent Of Code.
 version: 0.0.1
 # repository: https://github.com/my_org/my_repo
 
