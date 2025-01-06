@@ -6,8 +6,7 @@ import "package:args/command_runner.dart";
 // 1. gen (generate templates or directories for each year with support for language and individual day, year including bulk creation)
 // 2. login (retreive a session token for fetching inputs (inputs should not be commited to github)
 // 3. logout (delete session token)
-// 4. config file for configuration & running the solutions via defined commands for each languages. (Handy, can be separeted and customized with .advent)
-// 5. input (for getting input of specified year & day (current year & day by default)
+// 4. input (for getting input of specified year & day (current year & day by default)
 
 const String version = "0.0.1";
 
